@@ -1,0 +1,29 @@
+# Virtual service configuration for redirecting the requests from http(s)://<host>/... to
+# the destination with host as 'product.default.svc.cluster.local'(v1) .
+#  Also any requests containing the header end-user = john will be redirected to subset v2.
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: shop-app
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - shop-app-gateway
+  http:
+    - match:
+      - headers:
+          end-user:
+            exact: john
+      route:
+      - destination:
+          host: product.default.svc.cluster.local
+          subset: v2
+          port:
+            number: 8080
+    - route:
+        - destination:
+            host: product.default.svc.cluster.local
+            subset: v1
+            port:
+              number: 8080

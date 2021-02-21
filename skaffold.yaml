@@ -1,0 +1,15 @@
+apiVersion: skaffold/v2beta12
+kind: Config
+metadata:
+  name: shop-app-products-ms
+build:
+  artifacts:
+  - image: product
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - istio/shop-app-virtual-svc.yaml
+    - k8s/deploy.yaml
+    - k8s/svc.yaml

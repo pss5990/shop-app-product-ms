@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: product
+    version: v2
+  name: product-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product
+      version: v2
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: product
+        version: v2
+    spec:
+      containers:
+      - image: product:1.0
+        name: product
+        ports:
+        - containerPort: 8080
+        env:
+          - name: "deployment.version"
+            value: "v2"
+        resources: {}
+status: {}
